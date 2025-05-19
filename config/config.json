@@ -1,0 +1,50 @@
+{
+    "chains": {
+      "1338":{
+        "name": "Elysium",
+      "chainId": 1338,
+      "rpcUrl": "https://rpc.atlantischain.network",
+      "bridgeAddress": "0x46bC8e1A66AE9EF5C92da1b24Fb37B22705716e2",
+      "handler":"0xFd9D56a480794Ec38a033710cF11277123bC59C3",
+      "tokens":[
+        {
+          "name": "X-PYR",
+          "symbol": "X-PYR",
+          "decimals": 18,
+          "address": "0x7290113D7Be6a4111783266B7371C1c3979a2cf5",
+          "resourceId": "0x7E339b2E3B1C332EE51792A03c5d1327Ea901B6D000000000001388200000000"
+        },
+        {
+          "name": "Tether USD",
+          "symbol": "USDT",
+          "decimals": 6,
+          "address": "0x687f83f7b68bF27755c300F82341Ad9d98bB6877",
+          "resourceId": "0xE0354F683A9b5184a89898acec104491896153f0000000000001388200000000"
+        }
+      ]
+      },
+      "80002":{
+      "name": "Polygon Amoy Testnet",
+      "chainId": 80002,
+      "rpcUrl": "https://rpc-amoy.polygon.technology",
+      "bridgeAddress": "0x52334Db58D304df0D979F223eE2415e5769721c6",
+      "handler":"0xC719713C43B243d452cA119cF63d0c92Dd19FFb2",
+      "tokens":[
+        {
+          "name": "X-PYR",
+          "symbol": "X-PYR",
+          "decimals": 18,
+          "address": "0x7E339b2E3B1C332EE51792A03c5d1327Ea901B6D",
+          "resourceId": "0x7E339b2E3B1C332EE51792A03c5d1327Ea901B6D000000000001388200000000"
+        },
+        {
+          "name": "Tether USD",
+          "symbol": "USDT",
+          "decimals": 6,
+          "address": "0xE0354F683A9b5184a89898acec104491896153f0",
+          "resourceId": "0xE0354F683A9b5184a89898acec104491896153f0000000000001388200000000"
+        }
+      ]
+      }
+  }
+}
