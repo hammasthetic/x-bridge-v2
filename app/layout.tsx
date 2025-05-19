@@ -8,7 +8,7 @@ import Sidebar from "@/components/SideBar/Sidebar";
 import PoweredBy from "@/components/SideBar/PoweredBy";
 
 export const PixelifySans = Pixelify_Sans({ subsets: ["cyrillic"] });
-export const orbitron = Montserrat({ weight: "400" });
+export const orbitron = Montserrat({ subsets:["latin"], weight: "400" });
 export const fontOrbi = Orbitron({ subsets: ["latin"] });
 
 export default function RootLayout({
