@@ -26,7 +26,7 @@ function Header() {
       <div className=" navbar w-full flex flex-row rounded-small justify-between bg-content1 py-2 px-5">
         <div className="balance" />
         <div className="chainAndWallet flex flex-row gap-5">
-          <ActiveChainSwitcher label="Active Chain" />
+          <ActiveChainSwitcher  />
           <div className="wallet">
             <ConnectWalletButton />
           </div>

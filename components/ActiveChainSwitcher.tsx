@@ -16,7 +16,7 @@ interface ChainConfig {
   chain: Chain;
 }
 
-function ActiveChainSwitcher({ label }: { label: string }) {
+function ActiveChainSwitcher({ label }: { label?: string }) {
   const switchChainTW = useSwitchActiveWalletChain();
   const activeChain = useActiveWalletChain();
 
@@ -64,10 +64,11 @@ function ActiveChainSwitcher({ label }: { label: string }) {
           listboxWrapper: "rounded-small",
           innerWrapper: "rounded-small",
           popoverContent: "rounded-small",
+          label:"!text-primary text-lg font-bold"
         }}
         color="primary"
         isDisabled={!switchChainTW} // Disable if no wallet is connected
-        label={label}
+        label={label ? label : undefined}
         labelPlacement="outside-left"
         radius="sm"
         selectedKeys={[activeChainKey]} // Use controlled selectedKeys

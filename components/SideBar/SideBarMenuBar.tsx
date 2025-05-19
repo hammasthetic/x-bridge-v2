@@ -15,33 +15,41 @@ function SideBarMenuBar() {
       <div className=" space-y-8">
         <h1 className="text-primary text-2xl">menu</h1>
         <div className=" navbar flex flex-col gap-5 px-5">
-          <Link
+          <Button
+            as={Link}
             className=" flex flex-row gap-2 hover:text-primary-400 text-content2"
             href="/"
+            variant="light"
           >
             <Wallet /> Wallet
-          </Link>
-          <Link
+          </Button>
+          <Button
+            as={Link}
             className=" flex flex-row gap-2 hover:text-primary-400 text-content2"
             href="/bridge"
+            variant="light"
           >
             <AlignVerticalDistributeEnd /> Bridge
-          </Link>
-          <Link
+          </Button>
+          <Button
+            as={Link}
             className=" flex flex-row gap-2 hover:text-primary-400 text-content2"
             href="#"
+            variant="light"
           >
             <SendToBack /> Transactions
-          </Link>
-          <Link
+          </Button>
+          <Button
+            as={Link}
             className=" flex flex-row gap-2 hover:text-primary-400 text-content2"
             href="#"
+            variant="light"
           >
             <FlaskConical /> Testnet
-          </Link>
+          </Button>
         </div>
       </div>
-      <div className="addNetwork">
+      {/* <div className="addNetwork">
         <Button
           fullWidth
           className="text-primary text-sm"
@@ -51,7 +59,7 @@ function SideBarMenuBar() {
         >
           Add network to wallet
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 }

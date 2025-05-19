@@ -1,4 +1,4 @@
-import { Orbitron, Pixelify_Sans } from "next/font/google";
+import { Montserrat, Orbitron, Pixelify_Sans } from "next/font/google";
 
 import "./globals.css";
 import { Providers } from "./providers";
@@ -8,7 +8,8 @@ import Sidebar from "@/components/SideBar/Sidebar";
 import PoweredBy from "@/components/SideBar/PoweredBy";
 
 export const PixelifySans = Pixelify_Sans({ subsets: ["cyrillic"] });
-const orbitron = Orbitron({ subsets: ["latin"] });
+export const orbitron = Montserrat({ weight: "400" });
+export const fontOrbi = Orbitron({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
@@ -16,18 +17,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="green">
       <body className={orbitron.className}>
         <Providers>
-          <div className=" flex flex-col mt-12 items-center align-middle min-h-screen">
-            <div className="wrapper max-w-screen-2xl  w-full grid grid-cols-12 gap-10 min-h-screen">
+          <div className="flex flex-col p-14 w-full items-center align-middle ">
+            <div className="wrapper  w-full grid grid-cols-12 gap-10">
               <div className="col-span-3 min-h-full ">
                 <Sidebar />
               </div>
               <div className="flex flex-col justify-start col-span-9 gap-10">
                 <Header />
                 <PoweredBy />
-                <div className="bg-content1 w-full rounded-small px-5 py-5 ">
+                <div className="bg-content1 w-full flex grow justify-center rounded-small  ">
                   {children}
                 </div>
               </div>

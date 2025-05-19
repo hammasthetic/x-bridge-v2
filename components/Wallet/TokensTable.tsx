@@ -13,6 +13,8 @@ import {
 import { useActiveWallet } from "thirdweb/react";
 import { Chain, readContract, toTokens } from "thirdweb";
 
+import ConnectWalletButton from "../ConnectWalletButton";
+
 import { chains, Token } from "@/config/config";
 import { getErc20ContractByAddress } from "@/config/contract";
 
@@ -151,7 +153,7 @@ export default function TokensTable() {
         ))}
       </TableHeader>
       <TableBody
-        emptyContent="No tokens available"
+        emptyContent={<ConnectWalletButton />}
         items={paginatedItems}
         loadingContent={<Spinner />}
         loadingState={loadingState}

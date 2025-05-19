@@ -4,7 +4,7 @@ import WalletTopBar from "@/components/Wallet/WalletTopBar";
 import TokensTable from "@/components/Wallet/TokensTable";
 export default function Home() {
   return (
-    <main className="main flex flex-col gap-5">
+    <main className="main flex flex-col grow gap-5 w-full">
       <WalletTopBar />
       <Divider orientation="horizontal" />
       <TokensTable />

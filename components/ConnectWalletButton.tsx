@@ -15,6 +15,10 @@ import { createWallet } from "thirdweb/wallets";
 import { useTheme } from "next-themes";
 import {
   Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
   Modal,
   ModalBody,
   ModalContent,
@@ -54,10 +58,25 @@ export default function ConnectWalletButton() {
   const { data: walletImage, isLoading: loadingWalletImage } =
     useWalletImage(walletId);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
+  const [buttonText, setButtonText] = useState("Copy Address");
   const activeChain = useActiveWalletChain();
   const [authenticChain, setAuthenticChain] = useState(false);
   const [isHovered, setIsHovered] = useState(false); // State for hover effect
+  const handleCopyAddress = async () => {
+    if (walletAddress) {
+      try {
+        await navigator.clipboard.writeText(walletAddress);
+        setButtonText("Copied");
+        // Revert to "Copy Address" after 2 seconds
+        setTimeout(() => {
+          setButtonText("Copy Address");
+        }, 2000);
+      } catch (error) {
+        console.error("Failed to copy address:", error);
+        // Optionally handle error (e.g., keep text as "Copy Address")
+      }
+    }
+  };
 
   useEffect(() => {
     if (
@@ -96,14 +115,32 @@ export default function ConnectWalletButton() {
           {walletAddress && (
             <>
               <span className="text-sm">{`${walletAddress.slice(0, 4)}...${walletAddress.slice(39)}`}</span>
-              <Button color="primary" radius="sm" size="sm">
-                <AccountProvider
-                  address={walletAddress}
-                  client={thirdWebClient}
-                >
-                  <AccountBalance />
-                </AccountProvider>
-              </Button>
+              <Dropdown closeOnSelect={false}>
+                <DropdownTrigger>
+                  <Button color="primary" radius="sm" size="sm">
+                    <AccountProvider
+                      address={walletAddress}
+                      client={thirdWebClient}
+                    >
+                      <AccountBalance />
+                    </AccountProvider>
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu color="primary">
+                  <DropdownItem key="address" onPress={handleCopyAddress}>
+                    {buttonText}
+                  </DropdownItem>
+                  <DropdownItem
+                    key="disconnect"
+                    color="danger"
+                    onPress={async () => {
+                      await activeWallet.disconnect();
+                    }}
+                  >
+                    Disconnect
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
             </>
           )}
         </div>
