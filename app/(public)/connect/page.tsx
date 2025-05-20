@@ -1,7 +1,13 @@
-import ConnectWalletButton from "@/components/ConnectWalletButton";
+"use client";
+import { LoaderPinwheel } from "lucide-react";
+import { useActiveAccount } from "thirdweb/react";
+
 import { PixelifySans } from "@/config/fonts";
+import ConnectWalletButton from "@/components/ConnectWalletButton";
 
 export default function Home() {
+  const activeAccount = useActiveAccount();
+
   return (
     <main className="flex flex-col min-h-screen justify-center items-center gap-6 p-4 sm:p-6 md:p-8 w-full bg-gray-900">
       <div className="w-full max-w-3xl flex flex-col text-center items-center gap-4 sm:gap-5 md:gap-6 justify-center">
@@ -21,7 +27,11 @@ export default function Home() {
           limits.
         </p>
       </div>
-      <ConnectWalletButton />
+      {activeAccount ? (
+        <LoaderPinwheel className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 text-primary animate-spin-slow " />
+      ) : (
+        <ConnectWalletButton />
+      )}
     </main>
   );
 }

@@ -9,9 +9,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html data-theme="green" lang="en">
+    <html lang="en">
       <body className={orbitron.className}>
-        <Providers>
+        <Providers themeProps={{
+            defaultTheme:"red"
+        }}>
          
             {children}
           
