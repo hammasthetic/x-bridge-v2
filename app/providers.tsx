@@ -11,9 +11,11 @@ import { createThirdwebClient } from "thirdweb";
 import { ToastProvider } from "@heroui/toast";
 
 import ChainContext from "@/components/ChainContextProvider";
+
 export const thirdWebClient = createThirdwebClient({
   clientId: "f76f50283af21db4ef0e6eec33b378eb",
 });
+
 export interface ProvidersProps {
   children: React.ReactNode;
   themeProps?: ThemeProviderProps;
@@ -34,9 +36,17 @@ export function Providers({ children, themeProps }: ProvidersProps) {
   return (
     <ThirdwebProvider>
       <HeroUIProvider navigate={router.push}>
-        <ToastProvider />
         <ChainContext.Provider value={{ selectedChain, setSelectedChain }}>
-          <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
+          <NextThemesProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem={true}
+            themes={["light", "dark", "red", "green"]}
+            {...themeProps}
+          >
+            <ToastProvider />
+            {children}
+          </NextThemesProvider>
         </ChainContext.Provider>
       </HeroUIProvider>
     </ThirdwebProvider>

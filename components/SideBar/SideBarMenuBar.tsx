@@ -8,11 +8,11 @@ import {
 import Link from "next/link";
 import React from "react";
 
-function SideBarMenuBar() {
+function SideBarMenuBar({ showStats = true }) {
   return (
-    <div className="menu flex flex-col gap-6 sm:gap-8 px-4 sm:px-6 md:px-8 py-4 sm:py-5 md:py-6 bg-content1 w-full grow justify-between rounded-sm sm:rounded-md">
-      <div className="space-y-4 sm:space-y-6">
-        <h1 className="text-primary text-lg sm:text-xl md:text-2xl">Menu</h1>
+    <div className="menu flex flex-col gap-6 sm:gap-8 px-4 sm:px-6 md:px-8 py-4 sm:py-5 md:py-6 bg-content1 w-full md:grow justify-between rounded-sm sm:rounded-md">
+      {/* <div className="space-y-4 sm:space-y-6"> */}
+        {showStats && <h1 className="text-primary text-lg sm:text-xl md:text-2xl">Menu</h1>}
         <div className="navbar justify-center flex md:flex-col gap-3 sm:gap-4 flex-row">
           <Button
             as={Link}
@@ -47,7 +47,7 @@ function SideBarMenuBar() {
             <FlaskConical className="w-4 h-4" /> Testnet
           </Button>
         </div>
-      </div>
+      {/* </div> */}
     </div>
   );
 }

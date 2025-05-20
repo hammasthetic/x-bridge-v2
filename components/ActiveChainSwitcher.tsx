@@ -16,7 +16,7 @@ interface ChainConfig {
   chain: Chain;
 }
 
-function ActiveChainSwitcher({ label }: { label?: string }) {
+function ActiveChainSwitcher({ label,isOut }: { label?: string,isOut?:boolean }) {
   const switchChainTW = useSwitchActiveWalletChain();
   const activeChain = useActiveWalletChain();
 
@@ -65,7 +65,7 @@ function ActiveChainSwitcher({ label }: { label?: string }) {
         color="primary"
         isDisabled={!switchChainTW}
         label={label ? label : undefined}
-        labelPlacement="outside-left"
+        labelPlacement="outside"
         radius="sm"
         selectedKeys={[activeChainKey]}
         size="sm"

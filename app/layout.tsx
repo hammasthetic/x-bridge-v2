@@ -11,9 +11,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={orbitron.className}>
-        <Providers themeProps={{
-            defaultTheme:"red"
-        }}>
+        <Providers>
          
             {children}
           
