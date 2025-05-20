@@ -29,7 +29,7 @@ export default function ThemeSwitcher() {
   return (
     <div className="flex items-center justify-center">
       <Select
-        className="w-full sm:w-32"
+        className="w-32"
         classNames={{
           base: "bg-transparent transition-all duration-200",
           mainWrapper: "bg-transparent",
