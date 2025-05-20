@@ -21,21 +21,18 @@ import { getErc20ContractByAddress } from "@/config/contract";
 interface TableItem {
   tokenKey: string;
   tokenName: string;
-  balances: { [chainKey: string]: string }; // e.g., { ely: "1216.6", amoy: "657.98" }
+  balances: { [chainKey: string]: string };
 }
 
 export default function TokensTable() {
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<TableItem[]>([]);
-  const [loadingState, setLoadingState] = useState<"loading" | "idle">(
-    "loading",
-  );
+  const [loadingState, setLoadingState] = useState<"loading" | "idle">("loading");
   const rowsPerPage = 5;
 
   const activeWallet = useActiveWallet();
   const address = activeWallet?.getAccount()?.address;
 
-  // Fetch token balance for a given token and chain
   const getBalance = async (token: Token, chain: Chain): Promise<string> => {
     try {
       const contract = getErc20ContractByAddress({
@@ -54,24 +51,19 @@ export default function TokensTable() {
         `Error fetching balance for ${token.label} on ${chain.name}:`,
         error,
       );
-
       return "0";
     }
   };
 
-  // Load token balances and group by token key
   useEffect(() => {
     if (!address) {
       setItems([]);
       setLoadingState("idle");
-
       return;
     }
 
     const fetchBalances = async () => {
       setLoadingState("loading");
-
-      // Group tokens by key
       const tokenMap: {
         [key: string]: {
           name: string;
@@ -88,12 +80,10 @@ export default function TokensTable() {
             };
           }
           const balance = await getBalance(token, chain.chain);
-
           tokenMap[token.key].balances[chain.key] = balance;
         }
       }
 
-      // Convert tokenMap to array for table
       const tableItems: TableItem[] = Object.entries(tokenMap).map(
         ([tokenKey, data]) => ({
           tokenKey,
@@ -109,14 +99,12 @@ export default function TokensTable() {
     fetchBalances();
   }, [address]);
 
-  // Calculate pagination
   const pages = Math.ceil(items.length / rowsPerPage);
   const paginatedItems = items.slice(
     (page - 1) * rowsPerPage,
     page * rowsPerPage,
   );
 
-  // Dynamic columns: one for token name, one for each chain's balance
   const columns = [
     { key: "tokenName", label: "Token" },
     ...chains.map((chain) => ({
@@ -126,50 +114,65 @@ export default function TokensTable() {
   ];
 
   return (
-    <Table
-      aria-label="Tokens table with balances per chain"
-      bottomContent={
-        pages > 0 ? (
-          <div className="flex w-full justify-center">
-            <Pagination
-              isCompact
-              showControls
-              showShadow
-              color="primary"
-              page={page}
-              total={pages}
-              onChange={(newPage) => setPage(newPage)}
-            />
-          </div>
-        ) : null
-      }
-      className="max-h-full"
-      radius="sm"
-      shadow="none"
-    >
-      <TableHeader>
-        {columns.map((column) => (
-          <TableColumn key={column.key}>{column.label}</TableColumn>
-        ))}
-      </TableHeader>
-      <TableBody
-        emptyContent={<ConnectWalletButton />}
-        items={paginatedItems}
-        loadingContent={<Spinner />}
-        loadingState={loadingState}
+    <div className="w-full overflow-x-auto">
+      <Table
+        aria-label="Tokens table with balances per chain"
+        bottomContent={
+          pages > 0 ? (
+            <div className="flex w-full justify-center py-4">
+              <Pagination
+                isCompact
+                showControls
+                showShadow
+                color="primary"
+                page={page}
+                total={pages}
+                onChange={(newPage) => setPage(newPage)}
+                className="text-sm sm:text-base"
+              />
+            </div>
+          ) : null
+        }
+        className="w-full max-w-7xl mx-auto"
+        radius="sm"
+        shadow="none"
       >
-        {(item) => (
-          <TableRow key={item.tokenKey}>
-            {columns.map((column) => (
-              <TableCell key={column.key}>
-                {column.key === "tokenName"
-                  ? item.tokenName
-                  : item.balances[column.key] || "0"}
-              </TableCell>
-            ))}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+        <TableHeader>
+          {columns.map((column) => (
+            <TableColumn
+              key={column.key}
+              className="text-xs sm:text-sm md:text-base"
+            >
+              {column.key === "tokenName" ? (
+                column.label
+              ) : (
+                <span className="hidden sm:inline">{column.label}</span>
+              )}
+            </TableColumn>
+          ))}
+        </TableHeader>
+        <TableBody
+          emptyContent={<ConnectWalletButton />}
+          items={paginatedItems}
+          loadingContent={<Spinner size="lg" />}
+          loadingState={loadingState}
+        >
+          {(item) => (
+            <TableRow key={item.tokenKey}>
+              {columns.map((column) => (
+                <TableCell
+                  key={column.key}
+                  className="text-xs sm:text-sm md:text-base"
+                >
+                  {column.key === "tokenName"
+                    ? item.tokenName
+                    : item.balances[column.key] || "0"}
+                </TableCell>
+              ))}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
   );
 }

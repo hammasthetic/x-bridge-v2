@@ -1,3 +1,4 @@
+"use client";
 import { Select, SelectItem } from "@heroui/react";
 import React from "react";
 import {
@@ -9,7 +10,6 @@ import { Chain } from "thirdweb";
 
 import { elysiumChain } from "./ConnectWalletButton";
 
-// Define the chain configuration type for type safety
 interface ChainConfig {
   key: string;
   label: string;
@@ -20,7 +20,6 @@ function ActiveChainSwitcher({ label }: { label?: string }) {
   const switchChainTW = useSwitchActiveWalletChain();
   const activeChain = useActiveWalletChain();
 
-  // Define the chains array with type
   const chains: ChainConfig[] = [
     {
       key: "ely",
@@ -34,15 +33,13 @@ function ActiveChainSwitcher({ label }: { label?: string }) {
     },
   ];
 
-  // Find the key of the currently active chain
   const activeChainKey =
     chains.find((chain) => chain.chain.id === activeChain?.id)?.key ??
-    chains[0].key; // Fallback to first chain if no match
+    chains[0].key;
 
   const handleChainSwitch = async (selectedKey: string) => {
     try {
       const selectedChain = chains.find((chain) => chain.key === selectedKey);
-
       if (selectedChain && switchChainTW) {
         await switchChainTW(selectedChain.chain);
       } else {
@@ -50,40 +47,38 @@ function ActiveChainSwitcher({ label }: { label?: string }) {
       }
     } catch (error) {
       console.error("Failed to switch chain:", error);
-      // Optionally, show a user-facing error (e.g., toast notification)
     }
   };
 
   return (
-    <div className="chain">
+    <div className="chain flex items-center">
       <Select
-        className="w-56 text-sm"
+        className="w-full sm:w-40 md:w-48 text-xs sm:text-sm md:text-base"
         classNames={{
-          listbox: "rounded-small",
-          selectorIcon: "rounded-small",
-          listboxWrapper: "rounded-small",
-          innerWrapper: "rounded-small",
-          popoverContent: "rounded-small",
-          label:"!text-primary text-lg font-bold"
+          listbox: "rounded-sm sm:rounded-md",
+          selectorIcon: "rounded-sm sm:rounded-md",
+          listboxWrapper: "rounded-sm sm:rounded-md",
+          innerWrapper: "rounded-sm sm:rounded-md",
+          popoverContent: "rounded-sm sm:rounded-md",
+          label: "!text-primary text-sm sm:text-base md:text-lg font-bold",
         }}
         color="primary"
-        isDisabled={!switchChainTW} // Disable if no wallet is connected
+        isDisabled={!switchChainTW}
         label={label ? label : undefined}
         labelPlacement="outside-left"
         radius="sm"
-        selectedKeys={[activeChainKey]} // Use controlled selectedKeys
+        selectedKeys={[activeChainKey]}
         size="sm"
         variant="underlined"
         onChange={(e) => {
           const selectedKey = e.target.value;
-
           if (selectedKey) {
             handleChainSwitch(selectedKey);
           }
         }}
       >
         {chains.map((chain) => (
-          <SelectItem key={chain.key} color="primary">
+          <SelectItem key={chain.key} color="primary" className="text-xs sm:text-sm md:text-base">
             {chain.label}
           </SelectItem>
         ))}

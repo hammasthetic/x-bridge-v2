@@ -1,26 +1,9 @@
-"use client";
-import { LoaderPinwheel } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { ConnectEmbed, useActiveAccount } from "thirdweb/react";
-
-import { elysiumChain, wallets } from "@/components/ConnectWalletButton";
-import { polygonAmoy } from "thirdweb/chains";
-import { thirdWebClient } from "./providers";
 import { PixelifySans } from "@/config/fonts";
+import { LoaderPinwheel } from "lucide-react";
+import React from "react";
 
-export default function Home() {
-  const activeAccount = useActiveAccount();
-  const router = useRouter();
 
-  useEffect(() => {
-    if (activeAccount?.address) {
-      router.push("/wallet");
-    } else {
-      router.push("/connect");
-    }
-  }, [activeAccount]);
-
+export default function Loading() {
   return (
     <div className="w-full flex flex-col min-h-screen justify-center items-center bg-transparent p-4 sm:p-6 md:p-8 relative overflow-hidden">
       <div className="absolute inset-0 -z-10">
@@ -45,25 +28,6 @@ export default function Home() {
           </span>
         </h1>
       </div>
-      <div className=" hidden">
-       <ConnectEmbed
-                        autoConnect={true}
-                        chain={elysiumChain}
-                        chains={[elysiumChain, polygonAmoy]}
-                        client={thirdWebClient}
-                        showAllWallets={false}
-                        showThirdwebBranding={false}
-                        style={{
-                          width: "100%",
-                          background: "transparent",
-                          padding: "0px !important",
-                          border: "none !important",
-                          marginBottom: "10px",
-                        }}
-                        wallets={wallets}
-                        className="hidden"
-                      />
-                      </div>
     </div>
   );
 }

@@ -11,7 +11,7 @@ import {
   SelectItem,
   addToast,
 } from "@heroui/react";
-import { ArrowUpDown, DollarSign, InfoIcon, LoaderIcon } from "lucide-react";
+import { DollarSign, InfoIcon, LoaderIcon } from "lucide-react";
 import {
   useActiveAccount,
   useActiveWalletChain,
@@ -42,7 +42,7 @@ import {
   getErc20ContractByAddress,
 } from "@/config/contract";
 
-export default function BirdgingTabs() {
+export default function BridgingTabs() {
   const [selected, setSelected] = useState("bridge");
   const [amount, setAmount] = useState("");
   const [toChain, setToChain] = useState<Chain | null>(null);
@@ -76,7 +76,6 @@ export default function BirdgingTabs() {
       getFromChains(activeChainId || 1338)[0].bridgeAddress,
     ],
   });
-
   const { data: bridgingFee, isLoading: isLoadingBridgingFee } =
     useReadContract({
       contract: getBridgeContractByAddress({
@@ -91,6 +90,7 @@ export default function BirdgingTabs() {
     mutateAsync: sendBridgeTransaction,
     isPending: bridgeTransactionPendiing,
   } = useSendAndConfirmTransaction();
+
   const approveAmount = async () => {
     if (!activeChain || !token || !amount) return;
     const contract = getErc20ContractByAddress({
@@ -128,6 +128,7 @@ export default function BirdgingTabs() {
       },
     });
   };
+
   const bridgeTransaction = async () => {
     if (!activeChain || !toChain?.chainId || !token || !amount) return;
     const contract = getBridgeContractByAddress({
@@ -172,6 +173,7 @@ export default function BirdgingTabs() {
       setCompleting(false);
     }, 30000);
   };
+
   const {
     data: DestinationBalanceData,
     isLoading: isLoadingDestinationBalance,
@@ -183,252 +185,262 @@ export default function BirdgingTabs() {
     tokenAddress: toToken?.tokenAddress || "",
   });
 
-  // Set default toChain and token when active chain changes
   React.useEffect(() => {
     setToChain(toChains[0] || null);
     setToken(tokens[0] || null);
   }, [activeChainId]);
 
   return (
-    <div className="relative w-full  gap-2">
-      <div className="relative p-10 max-w-full">
-        <Card className="max-w-full p-0" shadow="none">
-          <CardBody className="p-0">
-            <Tabs
-              fullWidth
-              aria-label="Tabs form"
-              selectedKey={selected}
-              size="md"
-              onSelectionChange={(key) => setSelected(String(key))}
-            >
-              <Tab key="bridge" title="Bridge">
-                <div className="flex flex-col gap-7">
-                  <div className="grid grid-cols-3 justify-between">
-                    <ActiveChainSwitcher label="From" />
+    <div className="relative w-full flex flex-col gap-3 sm:gap-4">
+      <Card className="w-full max-w-3xl mx-auto" shadow="none">
+        <CardBody className="p-3 sm:p-4 md:p-6">
+          <Tabs
+            fullWidth
+            aria-label="Tabs form"
+            className="text-[0.65rem] sm:text-xs md:text-sm"
+            selectedKey={selected}
+            size="sm"
+            onSelectionChange={(key) => setSelected(String(key))}
+          >
+            <Tab key="bridge" title="Bridge">
+              <div className="flex flex-col gap-3 sm:gap-4 md:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                  <ActiveChainSwitcher label="From" />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-[0.65rem] sm:text-xs md:text-sm text-content2 p-3 sm:p-4 border-1 border-content2 rounded-sm sm:rounded-md">
+                  <div className="flex justify-start">
+                    <h1>Send</h1>
                   </div>
-                  <div>
-                    <div className="grid grid-cols-2 text-sm gap-2 text-content2 p-6 border-1 border-content2 rounded-md">
-                      <div className="flex justify-start">
-                        <h1>send</h1>
-                      </div>
-                      <div className="flex justify-end">
-                        {isLoadingBalance ? (
-                          <LoaderIcon className=" animate-spin" />
-                        ) : (
-                          <h1>
-                            MAX{" : "}
-                            <span className="text-primary">
-                              {Number(balanceData?.displayValue).toFixed(1)}{" "}
-                              {balanceData?.symbol}
-                            </span>
-                          </h1>
-                        )}
-                      </div>
-                      <div className="flex justify-start">
-                        <Input
-                          classNames={{
-                            base: "bg-transparent",
-                            input: "text-primary bg-transparent",
-                            label: "!text-content2",
-                          }}
-                          color="primary"
-                          label="Amount"
-                          placeholder="0"
-                          radius="sm"
-                          size="lg"
-                          startContent={<DollarSign />}
-                          type="number"
-                          value={amount}
-                          variant="underlined"
-                          onChange={(e) => setAmount(e.target.value)}
-                        />
-                      </div>
-                      <div className="flex justify-end">
-                        <Select
-                          className="max-w-28 bg-none"
-                          classNames={{
-                            base: "justify-end bg-transparent",
-                            mainWrapper: "justify-end bg-transparent",
-                            value: "!text-primary bg-transparent",
-                            listboxWrapper: "rounded-small",
-                            popoverContent: "rounded-small",
-                            innerWrapper: "bg-transparent",
-                            label: "!text-content2",
-                            selectorIcon: "!text-content2",
-                          }}
-                          color="primary"
-                          fullWidth={false}
-                          label="Select token"
-                          size="lg"
-                          variant="underlined"
-                          onChange={(e) => {
-                            setToken(
-                              tokens.find((t) => t.key === e.target.value) ||
-                                null,
-                            );
-                            setToToken(
-                              toChain?.tokens.find(
-                                (t) => t.key === e.target.value,
-                              ) || null,
-                            );
-                          }}
+                  <div className="flex justify-end">
+                    {isLoadingBalance ? (
+                      <LoaderIcon className="animate-spin w-3 h-3 sm:w-4 sm:h-4" />
+                    ) : (
+                      <h1>
+                        MAX{" : "}
+                        <span className="text-primary">
+                          {Number(balanceData?.displayValue).toFixed(1)}{" "}
+                          {balanceData?.symbol}
+                        </span>
+                      </h1>
+                    )}
+                  </div>
+                  <div className="flex justify-start">
+                    <Input
+                      classNames={{
+                        base: "bg-transparent",
+                        input: "text-primary bg-transparent",
+                        label: "!text-content2",
+                      }}
+                      color="primary"
+                      label="Amount"
+                      placeholder="0"
+                      radius="sm"
+                      size="sm"
+                      startContent={
+                        <DollarSign className="w-3 h-3 sm:w-4 sm:h-4" />
+                      }
+                      type="number"
+                      value={amount}
+                      variant="underlined"
+                      onChange={(e) => setAmount(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex justify-end">
+                    <Select
+                      className="w-full sm:max-w-28"
+                      classNames={{
+                        base: "justify-end bg-transparent",
+                        mainWrapper: "justify-end bg-transparent",
+                        value: "!text-primary bg-transparent",
+                        listboxWrapper: "rounded-sm sm:rounded-md",
+                        popoverContent: "rounded-sm sm:rounded-md",
+                        innerWrapper: "bg-transparent",
+                        label: "!text-content2",
+                        selectorIcon: "!text-content2",
+                      }}
+                      color="primary"
+                      fullWidth={false}
+                      label="Select token"
+                      size="sm"
+                      variant="underlined"
+                      onChange={(e) => {
+                        setToken(
+                          tokens.find((t) => t.key === e.target.value) || null,
+                        );
+                        setToToken(
+                          toChain?.tokens.find(
+                            (t) => t.key === e.target.value,
+                          ) || null,
+                        );
+                      }}
+                    >
+                      {tokens.map((coin) => (
+                        <SelectItem
+                          key={coin.key}
+                          className="text-[0.65rem] sm:text-xs md:text-sm"
                         >
-                          {tokens.map((coin) => (
-                            <SelectItem key={coin.key}>{coin.label}</SelectItem>
-                          ))}
-                        </Select>
-                      </div>
-                    </div>
-                    <div className="relative w-full flex justify-center mb-5">
-                      <div className="max-w-fit p-2 rounded-md absolute mx-auto -top-4 bg-primary">
-                        <ArrowUpDown className="" size={20} />
-                      </div>
-                    </div>
-                    <div className="flex flex-col gap-7">
-                      <div className="grid grid-cols-3">
-                        <Select
-                          className="text-sm "
-                          classNames={{
-                            label: "!text-primary text-lg font-bold",
-                            selectorIcon: "!text-primary",
-                          }}
-                          fullWidth={false}
-                          label="To"
-                          labelPlacement="outside-left"
-                          placeholder="Select chain"
-                          selectionMode="single"
-                          size="sm"
-                          variant="underlined"
-                          onChange={(e) =>
-                            setToChain(
-                              toChains.find((c) => c.key === e.target.value) ||
-                                null,
-                            )
-                          }
-                        >
-                          {toChains.map((chain) => (
-                            <SelectItem key={chain.key}>
-                              {chain.label}
-                            </SelectItem>
-                          ))}
-                        </Select>
-                      </div>
-                      <div
-                        className={`To grid grid-cols-2 gap-2 text-content2 p-6 border-1 border-content2 rounded-md ${isCompleting || isLoadingDestinationBalance ? "  animate-pulse" : ""}`}
-                      >
-                        <div className="flex-row justify-start w-full">
-                          <h1 className="flex justify-start items-center gap-1">
-                            <InfoIcon className="text-content2" size={10} />
-                            Balance Addition
-                          </h1>
-                          <div>
-                            <h1 className="flex gap-2 text-foreground">
-                              <DollarSign className="text-content2" />
-                              {amount
-                                ? Number(amount) -
-                                  (Number(bridgingFee) / 100 / 100) *
-                                    Number(amount)
-                                : 0}
-                            </h1>
-                          </div>
-                        </div>
-                        <div className="flex-row justify-start w-full">
-                          <h1 className="flex justify-start items-center gap-1">
-                            <InfoIcon className="text-content2" size={10} />
-                            Balance on {toChain?.label}
-                          </h1>
-                          <div>
-                            <h1 className="flex gap-2 text-foreground">
-                              <DollarSign className="text-content2" />
-                              {Number(
-                                DestinationBalanceData?.displayValue,
-                              ).toFixed(1)}{" "}
-                              {DestinationBalanceData?.symbol}
-                            </h1>
-                          </div>
-                        </div>
-                        <div />
-                      </div>
-                      <div className="flex flex-col gap-2">
-                        {isLoadingBridgingFee ? (
-                          <LoaderIcon className="animate-spin" />
-                        ) : (
-                          <p className="text-sm text-content2">
-                            Bridging Fee:{" "}
-                            {`${Number(Number(bridgingFee) / 100)}%`}
-                          </p>
-                        )}
-                        {token &&
-                        currentApprovedAmount &&
-                        Number(
-                          toTokens(currentApprovedAmount, token?.decimals),
-                        ) >= Number(amount) ? (
-                          <Button
-                            color="primary"
-                            isDisabled={
-                              !address ||
-                              !activeChain ||
-                              !toChain ||
-                              !token ||
-                              !amount ||
-                              (currentApprovedAmount &&
-                                Number(
-                                  toTokens(
-                                    currentApprovedAmount,
-                                    token?.decimals,
-                                  ),
-                                ) < Number(amount)) ||
-                              Number(amount) <= 0 ||
-                              Number(amount) >
-                                Number(balanceData?.displayValue) ||
-                              isLoadingApprovedAmount ||
-                              isCompleting
-                            }
-                            isLoading={bridgeTransactionPendiing}
-                            radius="sm"
-                            variant="ghost"
-                            onPress={async () => await bridgeTransaction()}
-                          >
-                            Start Bridging
-                          </Button>
-                        ) : (
-                          <Button
-                            color="primary"
-                            isDisabled={
-                              !address ||
-                              !activeChain ||
-                              !toChain ||
-                              !token ||
-                              !amount ||
-                              Number(amount) <= 0 ||
-                              Number(amount) >
-                                Number(balanceData?.displayValue) ||
-                              isLoadingApprovedAmount
-                            }
-                            isLoading={approvalPending}
-                            radius="sm"
-                            variant="ghost"
-                            onPress={async () => await approveAmount()}
-                          >
-                            Approve Amount
-                          </Button>
-                        )}
-                      </div>
-                    </div>
+                          {coin.label}
+                        </SelectItem>
+                      ))}
+                    </Select>
                   </div>
                 </div>
-              </Tab>
-              <Tab key="liquidity" isDisabled title="Liquidity" />
-              <Tab key="nft" isDisabled title="NFT" />
-            </Tabs>
-          </CardBody>
-        </Card>
-        {!activeAccount && (
-          <div className="absolute inset-0 z-50 flex items-center w-full justify-center backdrop-blur-md  rounded-lg">
-            <ConnectWalletButton />
-          </div>
-        )}
-      </div>
+
+                <div className="flex flex-col gap-3 sm:gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                    <Select
+                      className="text-[0.65rem] sm:text-xs md:text-sm"
+                      classNames={{
+                        label:
+                          "!text-primary text-xs sm:text-sm md:text-base font-bold",
+                        selectorIcon: "!text-primary",
+                        listboxWrapper: "rounded-sm sm:rounded-md",
+                        popoverContent: "rounded-sm sm:rounded-md",
+                      }}
+                      fullWidth={false}
+                      label="To"
+                      labelPlacement="outside-left"
+                      placeholder="Select chain"
+                      selectionMode="single"
+                      size="sm"
+                      variant="underlined"
+                      onChange={(e) =>
+                        setToChain(
+                          toChains.find((c) => c.key === e.target.value) ||
+                            null,
+                        )
+                      }
+                    >
+                      {toChains.map((chain) => (
+                        <SelectItem
+                          key={chain.key}
+                          className="text-[0.65rem] sm:text-xs md:text-sm"
+                        >
+                          {chain.label}
+                        </SelectItem>
+                      ))}
+                    </Select>
+                  </div>
+                  <div
+                    className={`grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-content2 p-3 sm:p-4 border-1 border-content2 rounded-sm sm:rounded-md transition-all duration-300 ${isCompleting || isLoadingDestinationBalance ? "bg-primary/10 animate-processing" : ""}`}
+                    style={{
+                      animation:
+                        isCompleting || isLoadingDestinationBalance
+                          ? "processing 1.5s ease-in-out infinite"
+                          : "none",
+                    }}
+                  >
+                    {isCompleting && (
+                      <div className="col-span-1 sm:col-span-2 flex justify-center items-center gap-2 text-[0.65rem] sm:text-xs md:text-sm text-primary mb-2">
+                        <LoaderIcon className="animate-spin w-3 h-3 sm:w-4 sm:h-4" />
+                        <span>Processing on {toChain?.label}...</span>
+                      </div>
+                    )}
+                    <div className="flex flex-col justify-start w-full gap-1">
+                      <h1 className="flex justify-start items-center gap-1 text-[0.65rem] sm:text-xs md:text-sm">
+                        <InfoIcon className="text-content2 w-2 h-2 sm:w-3 sm:h-3" />
+                        Balance Addition
+                      </h1>
+                      <h1 className="flex gap-1 text-foreground text-xs sm:text-sm">
+                        <DollarSign
+                          className={`text-content2 w-3 h-3 sm:w-4 sm:h-4 ${isCompleting || isLoadingDestinationBalance ? "animate-spin-slow" : ""}`}
+                        />
+                        {amount
+                          ? Number(amount) -
+                            (Number(bridgingFee) / 100 / 100) * Number(amount)
+                          : 0}
+                      </h1>
+                    </div>
+                    <div className="flex flex-col justify-start w-full gap-1">
+                      <h1 className="flex justify-start items-center gap-1 text-[0.65rem] sm:text-xs md:text-sm">
+                        <InfoIcon className="text-content2 w-2 h-2 sm:w-3 sm:h-3" />
+                        Balance on {toChain?.label}
+                      </h1>
+                      <h1 className="flex gap-1 text-foreground text-xs sm:text-sm">
+                        <DollarSign
+                          className={`text-content2 w-3 h-3 sm:w-4 sm:h-4 ${isCompleting || isLoadingDestinationBalance ? "animate-spin-slow" : ""}`}
+                        />
+                        {Number(DestinationBalanceData?.displayValue).toFixed(
+                          1,
+                        )}{" "}
+                        {DestinationBalanceData?.symbol}
+                      </h1>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-1 sm:gap-2">
+                    {isLoadingBridgingFee ? (
+                      <LoaderIcon className="animate-spin w-3 h-3 sm:w-4 sm:h-4" />
+                    ) : (
+                      <p className="text-[0.65rem] sm:text-xs md:text-sm text-content2">
+                        Bridging Fee: {`${Number(Number(bridgingFee) / 100)}%`}
+                      </p>
+                    )}
+                    {token &&
+                    currentApprovedAmount &&
+                    Number(toTokens(currentApprovedAmount, token?.decimals)) >=
+                      Number(amount) ? (
+                      <Button
+                        className="text-[0.65rem] sm:text-xs md:text-sm"
+                        color="primary"
+                        isDisabled={
+                          !address ||
+                          !activeChain ||
+                          !toChain ||
+                          !token ||
+                          !amount ||
+                          (currentApprovedAmount &&
+                            Number(
+                              toTokens(currentApprovedAmount, token?.decimals),
+                            ) < Number(amount)) ||
+                          Number(amount) <= 0 ||
+                          Number(amount) > Number(balanceData?.displayValue) ||
+                          isLoadingApprovedAmount ||
+                          isCompleting
+                        }
+                        isLoading={bridgeTransactionPendiing}
+                        radius="sm"
+                        variant="ghost"
+                        onPress={async () => await bridgeTransaction()}
+                      >
+                        Start Bridging
+                      </Button>
+                    ) : (
+                      <Button
+                        className="text-[0.65rem] sm:text-xs md:text-sm"
+                        color="primary"
+                        isDisabled={
+                          !address ||
+                          !activeChain ||
+                          !toChain ||
+                          !token ||
+                          !amount ||
+                          Number(amount) <= 0 ||
+                          Number(amount) > Number(balanceData?.displayValue) ||
+                          isLoadingApprovedAmount
+                        }
+                        isLoading={approvalPending}
+                        radius="sm"
+                        variant="ghost"
+                        onPress={async () => await approveAmount()}
+                      >
+                        Approve Amount
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </Tab>
+            <Tab key="liquidity" isDisabled title="Liquidity" />
+            <Tab key="nft" isDisabled title="NFT" />
+          </Tabs>
+        </CardBody>
+      </Card>
+      {!activeAccount && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center backdrop-blur-md rounded-sm sm:rounded-md">
+          <ConnectWalletButton />
+        </div>
+      )}
     </div>
   );
 }
