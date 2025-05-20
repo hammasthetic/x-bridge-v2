@@ -19,7 +19,7 @@ export default function ThemeSwitcher() {
         variant="solid"
         onClick={() => setTheme(theme === "green" ? "red" : "green")}
       >
-        {theme === "green" ? "Red Mode" : "Green Mode"}
+        {theme === "green" ? "Red" : "Green"}
       </Button>
     </div>
   );

@@ -51,7 +51,7 @@ function ActiveChainSwitcher({ label }: { label?: string }) {
   };
 
   return (
-    <div className="chain flex items-center">
+    <div className="chain w-full flex items-center">
       <Select
         className="w-full sm:w-40 md:w-48 text-xs sm:text-sm md:text-base"
         classNames={{
