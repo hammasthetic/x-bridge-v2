@@ -88,7 +88,7 @@ const config = {
               800: "#003652",
               900: "#001B29",
               DEFAULT: "#0087CD",
-              foreground: "#1F2937"
+              foreground: "#66B7E1"
             },
             focus: "#006CA4",
             content1: '#F9FAFB',

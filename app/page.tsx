@@ -35,7 +35,7 @@ export default function Home() {
       </div>
       <div className="flex flex-col items-center gap-4 sm:gap-5 md:gap-6 max-w-md mx-auto">
         <LoaderPinwheel className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 text-primary animate-spin-slow " />
-        <h1 className="flex animate-pulse  items-center gap-1 sm:gap-2">
+        <h1 className="flex animate-pulse animate-drip-expand  items-center gap-1 sm:gap-2">
           <span className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-primary animate-pulse">
             X
           </span>

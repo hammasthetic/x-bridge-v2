@@ -19,7 +19,7 @@ export default function RootLayout({
         <div className="flex flex-col justify-start md:col-span-9 gap-0 sm:gap-0 md:gap-8">
           <Header />
           <div className="md:hidden flex flex-col gap-0 sm:gap-6">
-            <div className="bg-content1 w-full flex justify-center rounded-sm sm:rounded-md">
+            <div className="bg-content1   w-full flex justify-center rounded-sm sm:rounded-md">
               {children}
             </div>
             <SideBarStats />
@@ -27,7 +27,7 @@ export default function RootLayout({
           </div>
           <div className="hidden md:flex flex-col gap-0 sm:gap-0 md:gap-8">
             <PoweredBy />
-            <div className="bg-content1 w-full flex justify-center rounded-sm sm:rounded-md">
+            <div className="bg-content1  w-full flex justify-center rounded-sm sm:rounded-md">
               {children}
             </div>
           </div>

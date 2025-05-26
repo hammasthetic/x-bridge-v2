@@ -7,7 +7,7 @@ function SideBarLogo() {
       <h1 className="flex items-center gap-1 sm:gap-2">
         <span className="font-light text-xl sm:text-2xl md:text-3xl text-primary">X</span>
         <span className="text-lg sm:text-xl md:text-2xl">.</span>
-        <span className={`${PixelifySans.className} text-content1 text-lg sm:text-xl md:text-2xl`}>BRIDGE</span>
+        <span className={`${PixelifySans.className} text-lg sm:text-xl md:text-2xl`}>BRIDGE</span>
       </h1>
     </div>
   );
