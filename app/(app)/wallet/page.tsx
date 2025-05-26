@@ -4,7 +4,7 @@ import WalletTopBar from "@/components/Wallet/WalletTopBar";
 import TokensTable from "@/components/Wallet/TokensTable";
 export default function Home() {
   return (
-    <main className="main flex animate-appearance-in flex-col grow p-14 gap-5 w-full">
+    <main className="w-full animate-appearance-in  max-w-7xl mx-auto p-4 sm:p-6 md:p-8 lg:p-10">
       <WalletTopBar />
       <Divider orientation="horizontal" />
       <TokensTable />
